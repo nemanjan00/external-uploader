@@ -1,15 +1,29 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-$config = array(
-	'driver'	=> 'mysql', // Db driver
-	'host'		=> 'localhost',
-	'database'	=> 'fifa',
-	'username'	=> 'root',
-	'password'	=> 'stream',
-	'charset'	=> 'utf8', // Optional
-	'collation' => 'utf8_unicode_ci' // Optional
-);
+if(getenv("DATABASE_URL") != ""){
+	$url = parse_url(getenv("DATABASE_URL"));
+
+	$config = array(
+		'driver' => 'mysql', 
+		'host' => $url["host"], 
+		'database' => substr($url["path"], 1), 
+		'username' => $url["user"], 
+		'password' => $url["pass"], 
+		'charset' => 'utf8', 
+		'collation' => 'utf8_unicode_ci'
+	);
+} else {
+	$config = array(
+		'driver' => 'mysql', 
+		'host' => 'localhost', 
+		'database' => 'fifa', 
+		'username' => 'root', 
+		'password' => 'stream', 
+		'charset' => 'utf8', 
+		'collation' => 'utf8_unicode_ci'
+	);
+}
 
 new \Pixie\Connection('mysql', $config, 'QB');
 
