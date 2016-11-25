@@ -1,0 +1,16 @@
+{
+    "name": "nemanjan00/upload",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nemanja Nedeljković",
+            "email": "nemanjan00@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "klein/klein": "^2.1",
+        "usmanhalalit/pixie": "2.*@dev"
+    }
+}
