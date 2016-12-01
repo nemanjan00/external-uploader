@@ -36,6 +36,9 @@ if(isset($_ENV["UPLOAD_PATH"])){
 $klein = new \Klein\Klein();
 
 $klein->respond('POST', '/upload', function () {
+	print_r($_FILES);
+	print_r($_POST);
+
 	global $uploadPath;
 	header('Content-Type: application/json');
 
