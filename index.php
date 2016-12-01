@@ -36,11 +36,14 @@ if(isset($_ENV["UPLOAD_PATH"])){
 $klein = new \Klein\Klein();
 
 $klein->respond('POST', '/upload', function () {
+	print_r($_POST);
+	print_r($_FILES);
+
 	global $uploadPath;
 	header('Content-Type: application/json');
 
 	if(isset($_POST["id"]) && isset($_FILES["file"])){
-		$query = QB::table('uploads')->where('id', '=', $_REQUEST["id"]);
+		$query = QB::table('uploads')->where('id', '=', $_POST["id"]);
 
 		$results = $query->get();
 
@@ -51,11 +54,11 @@ $klein->respond('POST', '/upload', function () {
 
 					$name = basename($_FILES["file"]["name"]);
 
-					mkdir("$uploadPath/".$_REQUEST["id"]);
+					mkdir("$uploadPath/".$_POST["id"]);
 
-					move_uploaded_file($tmp_name, "$uploadPath/".$_REQUEST["id"]."/$name");
+					move_uploaded_file($tmp_name, "$uploadPath/".$_POST["id"]."/$name");
 
-					QB::table('uploads')->where('id', $_REQUEST["id"])->update(["uploaded" => 1, "filename" => $name, "filetype" => $_FILES["file"]["type"]]);
+					QB::table('uploads')->where('id', $_POST["id"])->update(["uploaded" => 1, "filename" => $name, "filetype" => $_FILES["file"]["type"]]);
 
 					return json_encode(["status" => "ok", "message" => "Upload ok. "]);
 				} else {
